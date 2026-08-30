@@ -114,31 +114,30 @@ public class DoublyLinkedList<E> {
         return sb.toString();
     }
 
-    public void group() {
-        Node<E> nullPointer = header.getNext();
-        Node<E> current = header.getNext();
+public void group() {
+    Node<E> nullPointer = header.getNext();
+    Node<E> current = header.getNext();
 
-        while (current != trailer) {
-            Node<E> next = current.getNext();
+    while (current != trailer) {
+        Node<E> next = current.getNext();
 
-            if (current.getElement() == null) {
-                // Detach current
+        if (current.getElement() == null) {
+            if (current != nullPointer) {
                 current.getPrev().setNext(current.getNext());
                 current.getNext().setPrev(current.getPrev());
 
-                // Insert current before nullPointer
                 Node<E> beforeNullPointer = nullPointer.getPrev();
 
                 current.setPrev(beforeNullPointer);
                 current.setNext(nullPointer);
                 beforeNullPointer.setNext(current);
                 nullPointer.setPrev(current);
-
-                // Boundary now moves past this null
-                nullPointer = current.getNext();
+            } else {
+                nullPointer = nullPointer.getNext();
             }
-
-            current = next;
         }
+
+        current = next;
     }
+}
 }
